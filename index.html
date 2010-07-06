@@ -1,0 +1,261 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+    <head>
+        <title>KyleCards - The World's Best Web-Based Solitaire.</title>
+        <script type="text/javascript" src="kylecards.js"></script>
+        <script type="text/javascript" src="constraints.js"></script>
+        <script type="text/javascript" src="actions.js"></script>
+        <script type="text/javascript" src="gametypes.js"></script>
+        <script type="text/javascript" src="gui.js"></script>
+        <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            _uacct = "UA-242269-6";
+            urchinTracker();
+        </script>
+        <script language="JavaScript">
+            var img = new Image();
+            img.src = Config.cardImage;
+            
+            function onLoad() {
+                Utility.loadPreferences();
+                GUI.changeTableColor(Config.tableColor);
+                GUI.changeCardSetIndex(0);
+            }
+            
+            function devTest() {
+            
+            }
+            
+            function newGame() {
+                GUI.enableTable();
+                if(GameObjectFactory.currentGame) {
+                    GameObjectFactory.currentGame.tearDown();
+                }
+                var game = Utility.getNewGameInstance(Config.selectedGame);
+                game.setUp();
+                game.start();
+            }
+        </script>
+        <style type="text/css" media="all">
+             body { background-color: #99cc99;}
+            .HeaderDiv { position:absolute; border-right:black 1px solid;top:0px; left:0px; WIDTH: 800px; HEIGHT: 60px; BACKGROUND-COLOR: #003A00; FONT-SIZE: 50px; COLOR: white; FONT-FAMILY: Garamond, Sans-Serif; TEXT-ALIGN: center; FONT-VARIANT: small-caps}
+            .LeftColumnDiv { position:absolute; top:60px; left:0px; WIDTH: 230px; HEIGHT: 460px; BACKGROUND-COLOR: #FFF89D }
+            .InfoPanel { border:5px solid #003a00; position:relative; top:30px; cursor:auto; display:none; BACKGROUND-COLOR: #fff; }
+            .Item { position: relative; text-align: center; color: #000; top:0px; left:0px; background-color: #fff; BORDER:black 1px solid; width:212px;}
+            .ItemHeader { display: block; text-align: center; font: bold 8pt Georgia; padding: 3px 6px; text-decoration: none; color: #fff; background: #016E03;}
+            .GameTable { position:absolute; border-right:black 1px solid; top:60px; left:230px; WIDTH: 570px; HEIGHT: 430px; BACKGROUND-COLOR: #009900 }
+            .FooterDiv { position:absolute; border-bottom:black 1px solid; border-right:black 1px solid; top:520px; left:0px; WIDTH: 800px; HEIGHT: 20px; BACKGROUND-COLOR: #003A00; COLOR: #F1F2EF; FONT-SIZE: 14px; FONT-FAMILY: Garamond, Sans-Serif; TEXT-ALIGN: right;}
+            .MessageList {position:absolute; border-right:black 1px solid; top:490px; left:230px; width:570px; HEIGHT: 30px; BACKGROUND-COLOR: #FFF89D;}
+            .LinkButton {BORDER-RIGHT: #213768 1px solid; BORDER-TOP: #213768 1px solid; FONT-SIZE: 16px; BORDER-LEFT: #213768 1px solid; padding-left:4px; padding-right:4px; padding-bottom:4px; BORDER-BOTTOM: #213768 1px solid; FONT-FAMILY: Georgia, Serif; BACKGROUND-COLOR: #FFFFFF; FONT-VARIANT: small-caps; color:#000000}
+            .ColorSample {POSITION:relative;BORDER-RIGHT: black 1px solid; BORDER-TOP: black 1px solid; VERTICAL-ALIGN: baseline; BORDER-LEFT: black 1px solid; WIDTH: 50px; CURSOR:pointer; BORDER-BOTTOM: black 1px solid; FONT-FAMILY: Garamond, Serif; HEIGHT: 50px; TEXT-ALIGN: center}
+            .HelpMessage {BORDER: #000000 1px solid; padding-left:4px; padding-right:4px; padding-bottom:4px; FONT-FAMILY: Georgia, Serif; BACKGROUND-COLOR: #FFFFFF; color:#000000}
+            .GameListItem {PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; WIDTH: 150px; CURSOR: pointer; PADDING-TOP: 0px; FONT-FAMILY: Garamond, Serif; HEIGHT: 25px; TEXT-DECORATION: underline;}
+        </style>
+</head>
+    <body onload="onLoad();">
+
+        <div align="center" id="headerDiv" class="HeaderDiv">
+            <font color="red">&hearts;</font><font color="black">&spades;</font><font color="red">&diams;</font><font color="black">&clubs;</font>
+            KyleCards 
+            <font color="black">&clubs;</font><font color="red">&diams;</font><font color="black">&spades;</font><font color="red">&hearts;</font>
+        </div>
+        <div align="center" id="leftColumnDiv" class="LeftColumnDiv">
+            <div class="Item" style="TOP: 8px; HEIGHT: 90px">
+                <div id="gameNameDiv" class="ItemHeader">
+                    KyleCards
+                </div>
+
+                <a href="" onclick="GUI.showSelectGame();return false;" style="FONT-SIZE: 16px;color:000000;">Select a New Game</a><br/>
+                <a href="" onclick="GUI.showOptions();return false;" style="FONT-SIZE: 16px;color:000000;">Options</a><br/>
+                <a href="" onclick="GUI.enableHelp=!GUI.enableHelp;this.innerHTML=GUI.enableHelp?'Turn Help Off':'Turn Help On';Utility.log(GUI.enableHelp?'Help Enabled. Hover over a stack of cards for assistance.':'Help Disabled.');return false;" style="FONT-SIZE: 16px;color:000000;">Turn Help On</a>
+            </div>
+
+            <div class="Item" id="leftColOverflow" style="text-decoration:none;TOP: 24px; HEIGHT: 165px">
+                <div class="ItemHeader">
+                    Messages
+                </div>
+
+                <div  id="logPanelDiv" align="left" style="overflow:auto; text-align:left;FONT-SIZE: 14px; height:145px;FONT-FAMILY: Georgia;">
+                
+                </div>
+            </div>
+            <div class="Item" style="TOP: 32px; HEIGHT: 156px">
+                <div class="ItemHeader">
+                    About
+                </div>
+                <div id="aboutDiv" style="PADDING: 5px; FONT-FAMILY: Garamond;text-align:left;">
+                    KyleCards is a prototype for a future DHTML multiplayer card game project. This version is a single HTML file, and a single GIF image. I started development on the 16th of May, 2005.
+                </div>
+
+            </div>
+
+        
+        </div>
+        
+                
+        <div id="gameTable" class="GameTable">
+
+        </div>
+        
+        <div id="panelContainer" align="center" style="WIDTH: 570px; HEIGHT: 430px;cursor:wait;position:absolute;left:230px;top:60px;display:block;">
+            <div id="panelWelcome" class="InfoPanel" style="display:block;width:90%;CURSOR: default; ">
+                <div class="ItemHeader">Welcome</div>
+
+                <div align="left" style="padding:5px;">
+                    <ul>
+                        <li>Lost? Click "Select a New Game" to the left to get started.</li>
+                        <li>Confused? Turn on help tooltips by clicking "Turn Help On".</li>
+                        <li>Stuck? Feel free to undo and redo as much as you like.</li>
+                        <li>Lazy? Double-click a card to automatically play that card.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="panelSelectGame" align="left" style="text-align:left;width:370px;display:none;CURSOR: default; ">
+
+				<table align="left" class="InfoPanel" cellpadding="0" border="0" cellspacing="0" style="display:block;" ID="Table2">
+
+					<tr>
+					    <td colspan="2">
+                            <div class="ItemHeader">New Game</div>					    
+					    </td>
+					</tr>
+					<tr>
+						<td valign="top" rowspan="2" id="gameList" width="130">
+						    
+						</td>
+						<td align="center" valign="top" style="background-color:#ffffff;">
+
+						    <div style="padding:5px;">
+            				<table width="100%" align="left" border="0" cellpadding="0" cellspacing="0" ID="Table3">
+            				    <tr>
+            				        <th colspan="2" id="gameDescriptionName"></th>
+            				    </tr>
+            				    <tr>
+            				        <td width="70px">Time</td>
+            				        <td align="left" id="gameDescriptionTime"></td>
+
+            				    </tr>
+            				    <tr>
+            				        <td>Difficulty</td>
+            				        <td id="gameDescriptionDifficulty"></td>
+            				    </tr>
+            				    <tr>
+            				        <td>Skill</td>
+            				        <td id="gameDescriptionSkill"></td>
+
+            				    </tr>
+            				    <tr>
+            				        <td>Success %</td>
+            				        <td id="gameDescriptionSuccessPercent"></td>
+            				    </tr>
+            				</table>
+            				</div>
+                        </td>
+
+					</tr>
+					<tr>
+						<td valign="bottom" style="background-color:#ffffff;">
+						    <div align="center" style="padding:10px;">
+						        <a href="" class="LinkButton" onclick="newGame();return false;" style="COLOR: #213768">New Game</a>
+						        &nbsp;&nbsp;
+						        <a href="" class="LinkButton" onclick="GUI.enableTable();return false;" style="COLOR: #213768">Cancel</a>
+						    </div>
+
+                        </td>
+					</tr>
+				</table>
+            </div>
+            
+            <div id="panelDialog" class="InfoPanel" style="display:none;width:300px;">
+                <div class="ItemHeader" id="dialogPanelTitle"></div> 
+                <div id="dialogPanelBody" style="padding:5px;" align="center" >
+                    
+                </div>
+            </div>
+
+            <div id="panelOptions" class="InfoPanel" style="width:250px;display:none;CURSOR: default;">
+                <div class="ItemHeader">Options</div> 
+                <table border="0" ID="Table4">
+                    <tr>
+                        <td>Theme</td>
+                        <td>
+                            <select onchange="Utility.log('This doesn\'t work yet.')" ID="Select1" NAME="Select1">
+                                <option>Blues</option>
+
+                                <option>Greens</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Card Set</td>
+                        <td>
+                            <select onchange="GUI.changeCardSetIndex(this.selectedIndex);" ID="Select2" NAME="Select2">
+
+                                <option>Normal</option>
+                                <option>Small</option>
+                                <option>Hideous</option>
+                                <option>Invisible but Huge</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Card Back</td>
+                        <td>
+                            <select onchange="GUI.changeCardBackIndex(this.selectedIndex);" ID="Select3" NAME="Select1">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+
+                                <option>10</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Table Color</td>
+                        <td>
+                            <select onchange="GUI.changeTableColor(this.options[this.selectedIndex].value);" ID="Select4" NAME="Select2">
+                                <option value="Green">Green</option>
+                                <option value="#003A00">Dark Green</option>
+                                <option value="#99CC99">Light Green</option>
+                                <option value="#FFF89D">Yellow</option>
+                                <option value="White">White</option>
+                                <option value="Grey">Grey</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" align="center"><input type="checkbox" onclick="Config.showSelectedCards = this.checked;" ID="Checkbox1" NAME="Checkbox1"/>Display Dragged Cards</td>
+                    </tr>
+                </table>
+                <br/>
+                <a href="" onclick="Utility.persistPreferences();GUI.enableTable();return false;" style="COLOR: #213768">Return To Game</a>&nbsp;&nbsp;
+                
+            </div>
+
+        </div>
+        
+        <div id="menuDiv" class="MessageList">
+            <span id="availableMessageList" >
+                
+            </span>
+        </div>
+    
+        <div id="footerDiv" class="FooterDiv">
+            Created by <a style="color:#ffffff" href="mailto:kyle.unverferth@gmail.com">Kyle Unverferth</a>&nbsp;
+        </div>
+        
+        <div align="left" id="debugPanel" style="display:none;background-color:#A3B9A4;">
+                <strong>Debug Messages</strong>
+        </div>
+    </body>
+</html>
